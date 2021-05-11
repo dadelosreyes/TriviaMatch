@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">TriviaMatch</string>
+    <string name="trivia_match">Trivia Match</string>
+    <string name="play">Play Game</string>
+    <string name="instructions">Instructions</string>
+    <string name="timer">00 : 00</string>
+    <string name="question">QUESTION HERE</string>
+</resources>
