@@ -9,6 +9,8 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/Theme.TriviaMatch">
+        <activity android:name=".Try2">
+        </activity>
         <activity android:name=".Instructions">
         </activity>
         <activity android:name=".MainGame">
