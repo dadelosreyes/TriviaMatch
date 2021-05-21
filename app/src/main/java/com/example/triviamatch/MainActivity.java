@@ -22,34 +22,34 @@ public class MainActivity extends AppCompatActivity {
         scaleUp = AnimationUtils.loadAnimation(this,R.anim.up_scale);
         scaleDown = AnimationUtils.loadAnimation(this,R.anim.down_scale);
 
-        btnPlay.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if(event.getAction() == MotionEvent.ACTION_DOWN)
-                {
-                    btnPlay.startAnimation(scaleUp);
-                }
-                else if(event.getAction() == MotionEvent.ACTION_UP)
-                {
-                    btnPlay.startAnimation(scaleDown);
-                }
-                return false;
-            }
-        });
-        btnInstructions.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if(event.getAction() == MotionEvent.ACTION_DOWN)
-                {
-                    btnInstructions.startAnimation(scaleUp);
-                }
-                else if(event.getAction() == MotionEvent.ACTION_UP)
-                {
-                    btnInstructions.startAnimation(scaleDown);
-                }
-                return false;
-            }
-        });
+//        btnPlay.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                if(event.getAction() == MotionEvent.ACTION_DOWN)
+//                {
+//                    btnPlay.startAnimation(scaleUp);
+//                }
+//                else if(event.getAction() == MotionEvent.ACTION_UP)
+//                {
+//                    btnPlay.startAnimation(scaleDown);
+//                }
+//                return false;
+//            }
+//        });
+//        btnInstructions.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                if(event.getAction() == MotionEvent.ACTION_DOWN)
+//                {
+//                    btnInstructions.startAnimation(scaleUp);
+//                }
+//                else if(event.getAction() == MotionEvent.ACTION_UP)
+//                {
+//                    btnInstructions.startAnimation(scaleDown);
+//                }
+//                return false;
+//            }
+//        });
 
         btnPlay.setOnClickListener(new View.OnClickListener() {
             @Override

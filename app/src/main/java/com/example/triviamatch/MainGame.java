@@ -1,12 +1,18 @@
 package com.example.triviamatch;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ObjectAnimator;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
 
 public class MainGame extends AppCompatActivity implements View.OnClickListener {
 
@@ -18,81 +24,82 @@ public class MainGame extends AppCompatActivity implements View.OnClickListener 
 
     Integer[] imagePosition = new Integer[]{1,2,3,4,5,6,11,22,33,44,55,66};
 
+    Button[] buttons = new Button[12];
+
 
     String[] questionArray   = {
-
             "Which nuts are used to make marzipan?",
             "Which fruit floats because 25% of its volume is air?",
             "What’s the hardest rock?",
             "Which mammal has no vocal cords?",
             "What is the largest type of deer?",
             "What was the first toy to be advertised on television?",
-
     };
 
     int clickedCounter = 0;
     int clicked1 = -1;
     int clicked2 = -1;
 
-
-
+    int lastClicked;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main_game);
 
 
         //initial shit
         setContentView(R.layout.activity_main_game);
-        btn0 = findViewById(R.id.btn1);
-        btn1 = findViewById(R.id.btn2);
-        btn2 = findViewById(R.id.btn3);
-        btn3 = findViewById(R.id.btn4);
-        btn4 = findViewById(R.id.btn5);
-        btn5 = findViewById(R.id.btn6);
-        btn6 = findViewById(R.id.btn7);
-        btn7 = findViewById(R.id.btn8);
-        btn8 = findViewById(R.id.btn9);
-        btn9 = findViewById(R.id.btn10);
-        btn10 = findViewById(R.id.btn11);
-        btn11 = findViewById(R.id.btn12);
+        buttons[0] = findViewById(R.id.btn1);
+        buttons[1] = findViewById(R.id.btn2);
+        buttons[2] = findViewById(R.id.btn3);
+        buttons[3] = findViewById(R.id.btn4);
+        buttons[4] = findViewById(R.id.btn5);
+        buttons[5] = findViewById(R.id.btn6);
+        buttons[6] = findViewById(R.id.btn7);
+        buttons[7] = findViewById(R.id.btn8);
+        buttons[8] = findViewById(R.id.btn9);
+        buttons[9] = findViewById(R.id.btn10);
+        buttons[10] = findViewById(R.id.btn11);
+        buttons[11] = findViewById(R.id.btn12);
 
-        btn0.setOnClickListener(this);
-        btn1.setOnClickListener(this);
-        btn2.setOnClickListener(this);
-        btn3.setOnClickListener(this);
-        btn4.setOnClickListener(this);
-        btn5.setOnClickListener(this);
-        btn6.setOnClickListener(this);
-        btn7.setOnClickListener(this);
-        btn8.setOnClickListener(this);
-        btn9.setOnClickListener(this);
-        btn10.setOnClickListener(this);
-        btn11.setOnClickListener(this);
+        buttons[0].setOnClickListener(this);
+        buttons[1].setOnClickListener(this);
+        buttons[2].setOnClickListener(this);
+        buttons[3].setOnClickListener(this);
+        buttons[4].setOnClickListener(this);
+        buttons[5].setOnClickListener(this);
+        buttons[6].setOnClickListener(this);
+        buttons[7].setOnClickListener(this);
+        buttons[8].setOnClickListener(this);
+        buttons[9].setOnClickListener(this);
+        buttons[10].setOnClickListener(this);
+        buttons[11].setOnClickListener(this);
 
-        btn0.setTag(1);
-        btn1.setTag(2);
-        btn2.setTag(3);
-        btn3.setTag(4);
-        btn4.setTag(5);
-        btn5.setTag(6);
-        btn6.setTag(11);
-        btn7.setTag(22);
-        btn8.setTag(33);
-        btn9.setTag(44);
-        btn10.setTag(55);
-        btn11.setTag(66);
+        buttons[0].setTag(1);
+        buttons[1].setTag(2);
+        buttons[2].setTag(3);
+        buttons[3].setTag(4);
+        buttons[4].setTag(5);
+        buttons[5].setTag(6);
+        buttons[6].setTag(11);
+        buttons[7].setTag(22);
+        buttons[8].setTag(33);
+        buttons[9].setTag(44);
+        buttons[10].setTag(55);
+        buttons[11].setTag(66);
+
+
 
         //shuffle array
         setImagePosition();
-        //Collections.shuffle(Arrays.asList(imagePosition));
+        Collections.shuffle(Arrays.asList(imagePosition));
 
 
     }
     //assign a position to an image
     public void setImagePosition()
-
     {
         imagePosition[0] = R.drawable.almond;
         imagePosition[1] = R.drawable.apple;
@@ -110,7 +117,7 @@ public class MainGame extends AppCompatActivity implements View.OnClickListener 
     //set a imagePosition to a button
     public void setButtonImage(Button button, int pos)
     {
-        button.setBackgroundResource(imagePosition[pos]);
+        flipCardin(button,pos);
     }
 
     //button functions
@@ -120,8 +127,12 @@ public class MainGame extends AppCompatActivity implements View.OnClickListener 
         } else if (clickedCounter == 1) {
             clicked2 = (int) button.getTag();
         }
+
+
+
     }
 
+    //check if pair is correct
     public void comparator()
     {
         if (clicked1 == 1 && clicked2 == 11 || clicked1 == 11 && clicked2 == 1 )
@@ -151,8 +162,49 @@ public class MainGame extends AppCompatActivity implements View.OnClickListener 
         else
         {
             System.out.println("booohooo");
-
+            flipCardOut();
         }
+    }
+
+    // get last button clicked
+
+
+
+    //flip animation
+    public void flipCardin(Button button,int drawable)
+    {
+        final ObjectAnimator oa1 = ObjectAnimator.ofFloat(button, "scaleX", 1f, 0f);
+        final ObjectAnimator oa2 = ObjectAnimator.ofFloat(button, "scaleX", 0f, 1f);
+        oa1.setInterpolator(new DecelerateInterpolator());
+        oa2.setInterpolator(new AccelerateDecelerateInterpolator());
+        oa1.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                button.setBackgroundResource(imagePosition[drawable]);
+                oa2.setDuration(500);
+                oa2.start();
+            }
+        });
+        oa1.start();
+    }
+    public void flipCardOut()
+    {
+
+        final ObjectAnimator oa1 = ObjectAnimator.ofFloat(buttons[lastClicked], "scaleX", 1f, 0f);
+        final ObjectAnimator oa2 = ObjectAnimator.ofFloat(buttons[lastClicked], "scaleX", 0f, 1f);
+        oa1.setInterpolator(new DecelerateInterpolator());
+        oa2.setInterpolator(new AccelerateDecelerateInterpolator());
+        oa1.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                buttons[lastClicked].setBackgroundResource(R.drawable.card);
+                oa2.setDuration(500);
+                oa2.start();
+            }
+        });
+        oa1.start();
     }
 
     @Override
@@ -161,63 +213,75 @@ public class MainGame extends AppCompatActivity implements View.OnClickListener 
 
         if (clicked == R.id.btn1)
         {
-            setButtonImage(btn0,0);
-            buttonBrain(btn0);
+            lastClicked = 0;
+            setButtonImage(buttons[0],0);
+            buttonBrain(buttons[0]);
         }
         else if (clicked == R.id.btn2)
         {
-            setButtonImage(btn1,1);
-            buttonBrain(btn1);
+            lastClicked = 1;
+            setButtonImage(buttons[1],1);
+            buttonBrain(buttons[1]);
         }
         else if (clicked == R.id.btn3)
         {
-            setButtonImage(btn2,2);
-            buttonBrain(btn2);
+            lastClicked = 2;
+            setButtonImage(buttons[2],2);
+            buttonBrain(buttons[2]);
         }
         else if (clicked == R.id.btn4)
         {
-            setButtonImage(btn3,3);
-            buttonBrain(btn3);
+            lastClicked = 3;
+            setButtonImage(buttons[3],3);
+            buttonBrain(buttons[3]);
         }
         else if (clicked == R.id.btn5)
         {
-            setButtonImage(btn4,4);
-            buttonBrain(btn4);
+            lastClicked = 4;
+            setButtonImage(buttons[4],4);
+            buttonBrain(buttons[4]);
         }
         else if (clicked == R.id.btn6)
         {
-            setButtonImage(btn5,5);
-            buttonBrain(btn5);
+            lastClicked = 5;
+            setButtonImage(buttons[5],5);
+            buttonBrain(buttons[5]);
         }
         else if (clicked == R.id.btn7)
         {
-            setButtonImage(btn6,6);
-            buttonBrain(btn6);
+            lastClicked = 6;
+            setButtonImage(buttons[6],6);
+            buttonBrain(buttons[6]);
         }
         else if (clicked == R.id.btn8)
         {
-            setButtonImage(btn7,7);
-            buttonBrain(btn7);
+            lastClicked = 7;
+            setButtonImage(buttons[7],7);
+            buttonBrain(buttons[7]);
         }
         else if (clicked == R.id.btn9)
         {
-            setButtonImage(btn8,8);
-            buttonBrain(btn8);
+            lastClicked = 8;
+            setButtonImage(buttons[8],8);
+            buttonBrain(buttons[8]);
         }
         else if (clicked == R.id.btn10)
         {
-            setButtonImage(btn9,9);
-            buttonBrain(btn9);
+            lastClicked = 9;
+            setButtonImage(buttons[9],9);
+            buttonBrain(buttons[9]);
         }
         else if (clicked == R.id.btn11)
         {
-            setButtonImage(btn10,10);
-            buttonBrain(btn10);
+            lastClicked = 10;
+            setButtonImage(buttons[10],10);
+            buttonBrain(buttons[10]);
         }
         else if (clicked == R.id.btn12)
         {
-            setButtonImage(btn11,11);
-            buttonBrain(btn11);
+            lastClicked = 11;
+            setButtonImage(buttons[11],11);
+            buttonBrain(buttons[11]);
         }
         clickedCounter+=1;
 
@@ -227,4 +291,5 @@ public class MainGame extends AppCompatActivity implements View.OnClickListener 
             clickedCounter = 0;
         }
     }
+
 }

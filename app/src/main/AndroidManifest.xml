@@ -13,7 +13,9 @@
         </activity>
         <activity android:name=".Instructions">
         </activity>
-        <activity android:name=".MainGame">
+        <activity
+                android:name=".MainGame"
+                android:theme="@style/Theme.TriviaMatch">
         </activity>
         <activity android:name=".MainActivity">
             <intent-filter>

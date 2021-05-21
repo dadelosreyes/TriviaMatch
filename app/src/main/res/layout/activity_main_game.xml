@@ -5,8 +5,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/background"
-        tools:context=".MainGame">
+        android:background="@drawable/background">
 
     <Button
             android:layout_width="100dp"
@@ -14,7 +13,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btn9"
             app:layout_constraintStart_toEndOf="@+id/btn11"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent" android:background="@drawable/card"/>
     <Button
             android:layout_width="100dp"
             android:layout_height="100dp"
@@ -22,7 +21,7 @@
             app:layout_constraintTop_toBottomOf="@+id/btn6"
             app:layout_constraintBottom_toTopOf="@+id/btn12"
             app:layout_constraintStart_toEndOf="@+id/btn8"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent" android:background="@drawable/card"/>
     <Button
             android:layout_width="100dp"
             android:layout_height="100dp"
@@ -30,7 +29,7 @@
             app:layout_constraintTop_toBottomOf="@+id/btn3"
             app:layout_constraintBottom_toTopOf="@+id/btn9"
             app:layout_constraintStart_toEndOf="@+id/btn5"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent" android:background="@drawable/card"/>
     <Button
             android:layout_width="100dp"
             android:layout_height="100dp"
@@ -38,7 +37,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textView2"
             app:layout_constraintBottom_toTopOf="@+id/btn6"
             app:layout_constraintStart_toEndOf="@+id/btn2"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent" android:background="@drawable/card"/>
     <TextView
             android:text="@string/question"
             android:layout_width="375dp"
@@ -83,7 +82,7 @@
             app:layout_constraintTop_toBottomOf="@+id/btn5"
             app:layout_constraintBottom_toTopOf="@+id/btn11"
             app:layout_constraintStart_toEndOf="@+id/btn7"
-            app:layout_constraintEnd_toStartOf="@+id/btn9"/>
+            app:layout_constraintEnd_toStartOf="@+id/btn9" android:background="@drawable/card"/>
     <Button
             android:layout_width="100dp"
             android:layout_height="100dp"
@@ -91,7 +90,7 @@
             app:layout_constraintTop_toBottomOf="@+id/btn2"
             app:layout_constraintBottom_toTopOf="@+id/btn8"
             app:layout_constraintStart_toEndOf="@+id/btn4"
-            app:layout_constraintEnd_toStartOf="@+id/btn6"/>
+            app:layout_constraintEnd_toStartOf="@+id/btn6" android:background="@drawable/card"/>
 
     <Button
             android:layout_width="100dp"
@@ -100,7 +99,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textView2"
             app:layout_constraintBottom_toTopOf="@+id/btn5"
             app:layout_constraintStart_toEndOf="@+id/btn1"
-            app:layout_constraintEnd_toStartOf="@+id/btn3"/>
+            app:layout_constraintEnd_toStartOf="@+id/btn3" android:background="@drawable/card"/>
     <Button
             android:layout_width="100dp"
             android:layout_height="100dp"
@@ -108,7 +107,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btn7"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/btn11"/>
+            app:layout_constraintEnd_toStartOf="@+id/btn11" android:background="@drawable/card"/>
     <Button
             android:layout_width="100dp"
             android:layout_height="100dp"
@@ -116,7 +115,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textView2"
             app:layout_constraintBottom_toTopOf="@+id/btn4"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/btn2"/>
+            app:layout_constraintEnd_toStartOf="@+id/btn2" android:background="@drawable/card"/>
     <Button
             android:layout_width="100dp"
             android:layout_height="100dp"
@@ -124,7 +123,7 @@
             app:layout_constraintTop_toBottomOf="@+id/btn1"
             app:layout_constraintBottom_toTopOf="@+id/btn7"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/btn5"/>
+            app:layout_constraintEnd_toStartOf="@+id/btn5" android:background="@drawable/card"/>
     <Button
             android:layout_width="100dp"
             android:layout_height="100dp"
@@ -132,7 +131,7 @@
             app:layout_constraintTop_toBottomOf="@+id/btn4"
             app:layout_constraintBottom_toTopOf="@+id/btn10"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/btn8"/>
+            app:layout_constraintEnd_toStartOf="@+id/btn8" android:background="@drawable/card"/>
     <Button
             android:layout_width="100dp"
             android:layout_height="100dp"
@@ -140,7 +139,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btn8"
             app:layout_constraintStart_toEndOf="@+id/btn10"
-            app:layout_constraintEnd_toStartOf="@+id/btn12"/>
+            app:layout_constraintEnd_toStartOf="@+id/btn12" android:background="@drawable/card"/>
 
 
     <!-- buttons from https://www.freepik.com/vectors/frame"-->
