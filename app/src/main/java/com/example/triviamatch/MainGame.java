@@ -3,6 +3,7 @@ package com.example.triviamatch;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
+import android.os.Handler;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
@@ -11,8 +12,8 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
-import java.util.Arrays;
-import java.util.Collections;
+import java.lang.reflect.Array;
+import java.util.*;
 
 public class MainGame extends AppCompatActivity implements View.OnClickListener {
 
@@ -22,7 +23,9 @@ public class MainGame extends AppCompatActivity implements View.OnClickListener 
     TextView txtQuestion, txtTimer;
 
 
-    Integer[] imagePosition = new Integer[]{1,2,3,4,5,6,11,22,33,44,55,66};
+    Integer[] imagePosition;
+
+
 
     Button[] buttons = new Button[12];
 
@@ -39,14 +42,21 @@ public class MainGame extends AppCompatActivity implements View.OnClickListener 
     int clickedCounter = 0;
     int clicked1 = -1;
     int clicked2 = -1;
+    //int clicked = -1; // tempValue
 
+    boolean isDoingSomething = false;
+
+
+    int points = 0;
+
+    Button firstClicked;
     int lastClicked;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_game);
 
 
         //initial shit
@@ -77,60 +87,75 @@ public class MainGame extends AppCompatActivity implements View.OnClickListener 
         buttons[10].setOnClickListener(this);
         buttons[11].setOnClickListener(this);
 
-        buttons[0].setTag(1);
-        buttons[1].setTag(2);
-        buttons[2].setTag(3);
-        buttons[3].setTag(4);
-        buttons[4].setTag(5);
-        buttons[5].setTag(6);
-        buttons[6].setTag(11);
-        buttons[7].setTag(22);
-        buttons[8].setTag(33);
-        buttons[9].setTag(44);
-        buttons[10].setTag(55);
-        buttons[11].setTag(66);
-
-
-
-        //shuffle array
         setImagePosition();
-        Collections.shuffle(Arrays.asList(imagePosition));
+        //shuffleArray();
+
+        buttons[0].setTag(Array.get(imagePosition,0));
+        buttons[1].setTag(Array.get(imagePosition,1));
+        buttons[2].setTag(Array.get(imagePosition,2));
+        buttons[3].setTag(Array.get(imagePosition,3));
+        buttons[4].setTag(Array.get(imagePosition,4));
+        buttons[5].setTag(Array.get(imagePosition,5));
+        buttons[6].setTag(Array.get(imagePosition,6));
+        buttons[7].setTag(Array.get(imagePosition,7));
+        buttons[8].setTag(Array.get(imagePosition,8));
+        buttons[9].setTag(Array.get(imagePosition,9));
+        buttons[10].setTag(Array.get(imagePosition,10));
+        buttons[11].setTag(Array.get(imagePosition,11));
+
+
 
 
     }
+
+    private void shuffleArray() {
+
+        Random rand = new Random();
+
+        for (int i = 0; i < imagePosition.length; i++) {
+            int swap = rand.nextInt(imagePosition.length);
+            int temp = imagePosition[swap];
+            imagePosition[swap] = imagePosition[i];
+            imagePosition[i] = temp;
+        }
+    }
+
     //assign a position to an image
     public void setImagePosition()
     {
-        imagePosition[0] = R.drawable.almond;
-        imagePosition[1] = R.drawable.apple;
-        imagePosition[2] = R.drawable.diamond;
-        imagePosition[3] = R.drawable.giraffe;
-        imagePosition[4] = R.drawable.moose;
-        imagePosition[5] = R.drawable.mr_potato;//
-        imagePosition[6] = R.drawable.almond;
-        imagePosition[7] = R.drawable.apple;
-        imagePosition[8] = R.drawable.diamond;
-        imagePosition[9] = R.drawable.giraffe;
-        imagePosition[10] = R.drawable.moose;
-        imagePosition[11] = R.drawable.mr_potato;
+        int[] images = {
+                R.drawable.almond,
+                R.drawable.apple,
+                R.drawable.diamond,
+                R.drawable.giraffe,
+                R.drawable.moose,
+                R.drawable.mr_potato
+        };
+
+        imagePosition = new Integer[12];
+        imagePosition[0] = images[0];
+        imagePosition[1] = images[1];
+        imagePosition[2] = images[2];
+        imagePosition[3] = images[3];
+        imagePosition[4] = images[4];
+        imagePosition[5] = images[5];//
+        imagePosition[6] = images[0];
+        imagePosition[7] = images[1];
+        imagePosition[8] = images[2];
+        imagePosition[9] = images[3];
+        imagePosition[10] = images[4];
+        imagePosition[11] = images[5];
+
+        System.out.println(Arrays.toString(imagePosition));
     }
+
+
     //set a imagePosition to a button
     public void setButtonImage(Button button, int pos)
     {
         flipCardin(button,pos);
     }
 
-    //button functions
-    public void buttonBrain(Button button) {
-        if (clickedCounter == 0) {
-            clicked1 = (int) button.getTag();
-        } else if (clickedCounter == 1) {
-            clicked2 = (int) button.getTag();
-        }
-
-
-
-    }
 
     //check if pair is correct
     public void comparator()
@@ -162,13 +187,30 @@ public class MainGame extends AppCompatActivity implements View.OnClickListener 
         else
         {
             System.out.println("booohooo");
-            flipCardOut();
+            flipCardOut(buttons[clicked1]);
+            flipCardOut(buttons[clicked1]);
+
         }
     }
 
-    // get last button clicked
 
-
+    public boolean compare()
+    {
+        System.out.println("clicked1 tag = "+ buttons[clicked1].getTag());
+        System.out.println("clicked2 tag = "+ buttons[clicked2].getTag());
+        int value1 = (int) buttons[clicked1].getTag();
+        int value2 = (int) buttons[clicked2].getTag();
+        if(value1 == value2)
+        {
+            System.out.println("correct");
+            return true;
+        }
+        else
+        {
+            System.out.println("incorrect");
+            return false;
+        }
+    }
 
     //flip animation
     public void flipCardin(Button button,int drawable)
@@ -181,25 +223,26 @@ public class MainGame extends AppCompatActivity implements View.OnClickListener 
             @Override
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
+                //System.out.println("background"+imagePosition[drawable]);
                 button.setBackgroundResource(imagePosition[drawable]);
-                oa2.setDuration(500);
+                oa2.setDuration(300);
                 oa2.start();
             }
         });
         oa1.start();
     }
-    public void flipCardOut()
+    public void flipCardOut(Button button)
     {
 
-        final ObjectAnimator oa1 = ObjectAnimator.ofFloat(buttons[lastClicked], "scaleX", 1f, 0f);
-        final ObjectAnimator oa2 = ObjectAnimator.ofFloat(buttons[lastClicked], "scaleX", 0f, 1f);
+        final ObjectAnimator oa1 = ObjectAnimator.ofFloat(button, "scaleX", 1f, 0f);
+        final ObjectAnimator oa2 = ObjectAnimator.ofFloat(button, "scaleX", 0f, 1f);
         oa1.setInterpolator(new DecelerateInterpolator());
         oa2.setInterpolator(new AccelerateDecelerateInterpolator());
         oa1.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
-                buttons[lastClicked].setBackgroundResource(R.drawable.card);
+                button.setBackgroundResource(R.drawable.card);
                 oa2.setDuration(500);
                 oa2.start();
             }
@@ -207,89 +250,121 @@ public class MainGame extends AppCompatActivity implements View.OnClickListener 
         oa1.start();
     }
 
+    public void checkPair()
+    {
+        if (clickedCounter == 2)
+        {
+            if(compare())
+            {
+                points++;
+                buttons[clicked1].setEnabled(false);
+                buttons[clicked2].setEnabled(false);
+                clicked1 = -1;
+                clicked2 = -1;
+                clickedCounter = 0;
+            }
+            else
+            {
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        flipCardOut(buttons[clicked1]);
+                        flipCardOut(buttons[clicked2]);
+
+                        clicked1 = -1;
+                        clicked2 = -1;
+                        isDoingSomething = false;
+                    }
+                },1000);
+                clickedCounter = 0;
+            }
+
+        }
+
+    }
+
     @Override
     public void onClick(View v) {
         int clicked = v.getId();
+
+        if(isDoingSomething) return;
 
         if (clicked == R.id.btn1)
         {
             lastClicked = 0;
             setButtonImage(buttons[0],0);
-            buttonBrain(buttons[0]);
         }
         else if (clicked == R.id.btn2)
         {
             lastClicked = 1;
             setButtonImage(buttons[1],1);
-            buttonBrain(buttons[1]);
         }
         else if (clicked == R.id.btn3)
         {
             lastClicked = 2;
             setButtonImage(buttons[2],2);
-            buttonBrain(buttons[2]);
         }
         else if (clicked == R.id.btn4)
         {
             lastClicked = 3;
             setButtonImage(buttons[3],3);
-            buttonBrain(buttons[3]);
         }
         else if (clicked == R.id.btn5)
         {
             lastClicked = 4;
             setButtonImage(buttons[4],4);
-            buttonBrain(buttons[4]);
         }
         else if (clicked == R.id.btn6)
         {
             lastClicked = 5;
             setButtonImage(buttons[5],5);
-            buttonBrain(buttons[5]);
         }
         else if (clicked == R.id.btn7)
         {
             lastClicked = 6;
             setButtonImage(buttons[6],6);
-            buttonBrain(buttons[6]);
         }
         else if (clicked == R.id.btn8)
         {
             lastClicked = 7;
             setButtonImage(buttons[7],7);
-            buttonBrain(buttons[7]);
         }
         else if (clicked == R.id.btn9)
         {
             lastClicked = 8;
             setButtonImage(buttons[8],8);
-            buttonBrain(buttons[8]);
         }
         else if (clicked == R.id.btn10)
         {
             lastClicked = 9;
             setButtonImage(buttons[9],9);
-            buttonBrain(buttons[9]);
         }
         else if (clicked == R.id.btn11)
         {
             lastClicked = 10;
             setButtonImage(buttons[10],10);
-            buttonBrain(buttons[10]);
         }
         else if (clicked == R.id.btn12)
         {
             lastClicked = 11;
             setButtonImage(buttons[11],11);
-            buttonBrain(buttons[11]);
         }
-        clickedCounter+=1;
 
-        if (clickedCounter == 1)
+        if (clicked1 == -1)
         {
-            comparator();
-            clickedCounter = 0;
+            clicked1 = lastClicked;
+        } else
+        {
+            clicked2 = lastClicked;
+            isDoingSomething = true;
         }
+
+        clickedCounter+=1;
+        checkPair();
+
     }
+
+
 
 }
