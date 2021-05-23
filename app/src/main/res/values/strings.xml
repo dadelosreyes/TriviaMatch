@@ -5,4 +5,8 @@
     <string name="instructions">Instructions</string>
     <string name="timer">00 : 00</string>
     <string name="question">QUESTION HERE</string>
+    <string name="menu">Menu</string>
+    <string name="score">00000</string>
+    <string name="current_score">Current Score:</string>
+    <string name="highest_score">Highest Score:</string>
 </resources>

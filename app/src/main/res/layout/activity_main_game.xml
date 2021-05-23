@@ -34,15 +34,16 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:id="@+id/btn3"
-            app:layout_constraintTop_toBottomOf="@+id/textView2"
+            app:layout_constraintTop_toBottomOf="@+id/txtquestion"
             app:layout_constraintBottom_toTopOf="@+id/btn6"
             app:layout_constraintStart_toEndOf="@+id/btn2"
-            app:layout_constraintEnd_toEndOf="parent" android:background="@drawable/card"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            android:background="@drawable/card"/>
     <TextView
             android:text="@string/question"
             android:layout_width="375dp"
             android:layout_height="128dp"
-            android:id="@+id/textView2"
+            android:id="@+id/txtquestion"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:paddingTop="10dp"
@@ -61,20 +62,24 @@
             android:layout_height="52dp"
             android:id="@+id/button"
             android:background="@drawable/button_pause"
-            app:layout_constraintStart_toStartOf="@+id/textView2"
-            app:layout_constraintBottom_toTopOf="@+id/textView2"
-            android:layout_marginBottom="20dp"/>
+            app:layout_constraintStart_toStartOf="@+id/txtquestion"
+            app:layout_constraintBottom_toTopOf="@+id/txtquestion"
+            android:layout_marginBottom="20dp"
+            android:onClick="pause"/>
     <TextView
             android:text="@string/timer"
+            android:fontFamily="@font/lato_bold"
+            android:textStyle="bold"
             android:textColor="@color/white"
-            android:textSize="24sp"
+            android:textSize="36sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/textView4"
-            app:layout_constraintEnd_toEndOf="@+id/textView2"
-            app:layout_constraintBottom_toTopOf="@+id/textView2"
+            app:layout_constraintEnd_toEndOf="@+id/txtquestion"
+            app:layout_constraintBottom_toTopOf="@+id/txtquestion"
             android:layout_marginEnd="8dp"
-            android:layout_marginBottom="20dp"/>
+            android:layout_marginBottom="20dp"
+    />
     <Button
             android:layout_width="100dp"
             android:layout_height="100dp"
@@ -96,7 +101,7 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:id="@+id/btn2"
-            app:layout_constraintTop_toBottomOf="@+id/textView2"
+            app:layout_constraintTop_toBottomOf="@+id/txtquestion"
             app:layout_constraintBottom_toTopOf="@+id/btn5"
             app:layout_constraintStart_toEndOf="@+id/btn1"
             app:layout_constraintEnd_toStartOf="@+id/btn3" android:background="@drawable/card"/>
@@ -112,7 +117,7 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:id="@+id/btn1"
-            app:layout_constraintTop_toBottomOf="@+id/textView2"
+            app:layout_constraintTop_toBottomOf="@+id/txtquestion"
             app:layout_constraintBottom_toTopOf="@+id/btn4"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/btn2" android:background="@drawable/card"/>
