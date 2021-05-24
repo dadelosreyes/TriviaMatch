@@ -3,20 +3,16 @@ package com.example.triviamatch;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
-import android.widget.GridLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.appcompat.app.AlertDialog;
@@ -29,19 +25,17 @@ import java.util.Random;
 public class MainGame extends AppCompatActivity implements View.OnClickListener {
 
 
-    Button btnPause;
     TextView txtQuestion, txtTimer;
     Integer[] imagePosition;
     Button[] buttons = new Button[12];
     String[] questionArray   = {
-            "Which nuts are used to make marzipan?",
-            "Which fruit floats because 25% of its volume is air?",
-            "What’s the hardest rock?",
-            "Which mammal has no vocal cords?",
-            "What is the largest type of deer?",
-            "What was the first toy to be advertised on television?",
+            "Which nuts are used to make marzipan?",//almond
+            "Which fruit floats because 25% of its volume is air?",//apple
+            "What’s the hardest rock?",//diamond
+            "Which mammal has no vocal cords?",//giraffe
+            "What is the largest type of deer?",//moose
+            "What was the first toy to be advertised on television?",//mr,potato
     };
-
     int[] images = {
             R.drawable.almond,
             R.drawable.apple,
@@ -56,15 +50,18 @@ public class MainGame extends AppCompatActivity implements View.OnClickListener 
     int points = 0;
     int lastClicked;
     int correctCounter = 0;
+    int postedQuestionIndex;
+    int matchedPairTag;
 
+
+    boolean isMatched = false;
     boolean isDoingSomething = false;
     boolean isFinished = false;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
-
-
         //initial shit
         setContentView(R.layout.activity_main_game);
         buttons[0] = findViewById(R.id.btn1);
@@ -96,7 +93,8 @@ public class MainGame extends AppCompatActivity implements View.OnClickListener 
         buttons[11].setOnClickListener(this);
 
         setImagePosition();
-        shuffleArray();
+        //shuffleArray();
+        setQuestion();
 
         buttons[0].setTag(Array.get(imagePosition,0));
         buttons[1].setTag(Array.get(imagePosition,1));
@@ -111,11 +109,18 @@ public class MainGame extends AppCompatActivity implements View.OnClickListener 
         buttons[10].setTag(Array.get(imagePosition,10));
         buttons[11].setTag(Array.get(imagePosition,11));
     }
+    public void setQuestion()
+    {
+        Random random = new Random();
+        int rand = random.nextInt(questionArray.length);
+        postedQuestionIndex = rand;
+        txtQuestion.setText(questionArray[rand]);
+        txtQuestion.setTag(Array.get(imagePosition,rand));
 
-    private void shuffleArray() {
-
+    }
+    private void shuffleArray()
+    {
         Random rand = new Random();
-
         for (int i = 0; i < imagePosition.length; i++) {
             int swap = rand.nextInt(imagePosition.length);
             int temp = imagePosition[swap];
@@ -123,7 +128,6 @@ public class MainGame extends AppCompatActivity implements View.OnClickListener 
             imagePosition[i] = temp;
         }
     }
-
     //assign a position to an image
     public void setImagePosition()
     {
@@ -141,34 +145,31 @@ public class MainGame extends AppCompatActivity implements View.OnClickListener 
         imagePosition[10] = images[4];
         imagePosition[11] = images[5];
 
-        System.out.println(images.length);
-        System.out.println(Arrays.toString(imagePosition));
+//        System.out.println(images.length);
+//        System.out.println(Arrays.toString(imagePosition));
     }
-
-
     //set a imagePosition to a button
-    public void setButtonImage(Button button, int pos) {
+    public void setButtonImage(Button button, int pos)
+    {
         flipCardin(button,pos);
     }
     //check if pair is correct
     public boolean compare()
     {
-        System.out.println("clicked1 tag = "+ buttons[clicked1].getTag());
-        System.out.println("clicked2 tag = "+ buttons[clicked2].getTag());
+//        System.out.println("clicked1 tag = "+ buttons[clicked1].getTag());
+//        System.out.println("clicked2 tag = "+ buttons[clicked2].getTag());
         int value1 = (int) buttons[clicked1].getTag();
         int value2 = (int) buttons[clicked2].getTag();
         if(value1 == value2)
         {
-            System.out.println("correct");
+            matchedPairTag = (int) buttons[clicked2].getTag();
             return true;
         }
         else
         {
-            System.out.println("incorrect");
             return false;
         }
     }
-
     //flip animation
     public void flipCardin(Button button,int drawable)
     {
@@ -206,19 +207,38 @@ public class MainGame extends AppCompatActivity implements View.OnClickListener 
         });
         oa1.start();
     }
-
     public void checkPair()
     {
+        int questionValue = (int) txtQuestion.getTag();
         if (clickedCounter == 2 && clicked2 != -1)
         {
             if(compare())
             {
-                points++;
-                correctCounter++;
-                buttons[clicked1].setEnabled(false);
-                buttons[clicked2].setEnabled(false);
-                clicked1 = -1;
-                clicked2 = -1;
+                System.out.println("question "+questionValue);
+                System.out.println("matched pair "+ matchedPairTag);
+                isMatched = true;
+                if(matchedPairTag == questionValue)
+                {
+                    points++;
+                    correctCounter++;
+                    buttons[clicked1].setEnabled(false);
+                    buttons[clicked2].setEnabled(false);
+                    clicked1 = -1;
+                    clicked2 = -1;
+                    setQuestion();
+                }
+                else
+                {
+                    Handler handler = new Handler();
+                    handler.postDelayed(() -> {
+                        flipCardOut(buttons[clicked1]);
+                        flipCardOut(buttons[clicked2]);
+                        clicked1 = -1;
+                        clicked2 = -1;
+                        isDoingSomething = false;
+                    },1000);
+
+                }
                 clickedCounter = 0;
                 isDoingSomething = false;
             }
@@ -234,15 +254,12 @@ public class MainGame extends AppCompatActivity implements View.OnClickListener 
                     isDoingSomething = false;
                 },1000);
                 clickedCounter = 0;
-
             }
-
         }
-
     }
-
     @Override
-    public void onClick(View v) {
+    public void onClick(View v)
+    {
         int clicked = v.getId();
         if(isDoingSomething) return;
         if(correctCounter == images.length)
@@ -313,7 +330,6 @@ public class MainGame extends AppCompatActivity implements View.OnClickListener 
             lastClicked = 11;
             setButtonImage(buttons[11],11);
         }
-
         if (clicked1 == -1)
         {
             clicked1 = lastClicked;
@@ -322,22 +338,17 @@ public class MainGame extends AppCompatActivity implements View.OnClickListener 
             clicked2 = lastClicked;
             isDoingSomething = true;
         }
-
         clickedCounter+=1;
         checkPair();
 
     }
-
-     public void pause(View v)
-     {
+    public void pause(View v)
+    {
          final AlertDialog.Builder builder = new AlertDialog.Builder(this);
          builder.setView(R.layout.custom_alert_dialog_pause);
          Log.e("status", "LOSE");
 
-         builder.setPositiveButton("Resume", (dialog, which) ->
-         {
-             dialog.dismiss();
-         });
+         builder.setPositiveButton("Resume", (dialog, which) -> dialog.dismiss());
          builder.setNegativeButton("Main Menu", (dialog, which) ->
          {
              loseDialog();
@@ -412,7 +423,7 @@ public class MainGame extends AppCompatActivity implements View.OnClickListener 
         btnNegative.setLayoutParams(layoutParamsNegative);
     }
 
-    // TODO: make scoring system: make score text view,, set the timer,set high score, show high score in main menu
+    // TODO: make scoring system:make score text view, set the timer,set high score, show high score in main menu
 
 
 }
